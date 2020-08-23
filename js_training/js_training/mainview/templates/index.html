@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <title>JSの勉強をしてみる</title>
+  </head>
+  <body>
+    <button type="button" id="test1">TEST1</button>
+    <div id="resultGET">
+    {% comment %} ここにHttpResponseで投げた戻り値を挿入 {% endcomment %}
+    </div>
+  </body>
+</html>
+<script>
+  $('#test1').on('click', function(){
+    console.log("kita")
+    // Ajax通信を開始
+    $.ajax({
+        url: '/test/',
+        method: "GET",
+        // プレーンテキストを受信（他にはhtml、xml、script、json、jsonp等）
+        dataType: 'text',
+        {% comment %} // リクエストパラメータ
+        data: {
+            menu : $('menu:option.selected').val(),
+        }, {% endcomment %}
+        timeout: 5000,
+    })
+    .done(function(data) {
+        // 通信成功時の処理を記述
+        $('#resultGET').html(data);
+        })
+  });
+</script>
